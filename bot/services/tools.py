@@ -179,9 +179,11 @@ TOOLS: list[dict] = [
         "function": {
             "name": "trigger_sync",
             "description": (
-                "Trigger an ETL sync to refresh data from the autochecker. "
-                "Use this when the user asks to refresh data, update scores, "
-                "or if data seems stale."
+                "Trigger an ETL pipeline sync to refresh data from the autochecker. "
+                "Use this when the user asks to sync data, refresh data, update scores, "
+                "trigger a sync, reload items, or if data seems stale. "
+                "ALWAYS call this tool when the user mentions syncing, refreshing, or updating data. "
+                "The tool returns the number of new records loaded and total records."
             ),
             "parameters": {
                 "type": "object",
