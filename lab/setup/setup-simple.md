@@ -377,7 +377,7 @@ Your bot needs an LLM for the intent routing feature (Task 3). [Qwen Code](../..
 > If you set up the Qwen Code API in Lab 6, it should still be running on your VM. Verify by running this **on your VM**:
 >
 > ```terminal
-> grep QWEN_CODE_API_KEY ~/qwen-code-oai-proxy/.env
+> grep QWEN_API_KEY ~/qwen-code-oai-proxy/.env
 > ```
 >
 > This shows your key. Then test it:
