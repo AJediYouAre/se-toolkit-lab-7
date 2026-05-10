@@ -42,7 +42,8 @@ for round_num in range(5):
     data = resp.json()
     msg = data["choices"][0]["message"]
     print(f"finish_reason: {data['choices'][0].get('finish_reason')}", file=sys.stderr)
-    print(f"content: {msg.get('content', '')[:200]}", file=sys.stderr)
+    content = msg.get("content") or ""
+    print(f"content: {content[:200]}", file=sys.stderr)
 
     tool_calls = msg.get("tool_calls", [])
     if not tool_calls:
