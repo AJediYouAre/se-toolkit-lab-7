@@ -1,17 +1,25 @@
 """Bot entry point — supports --test mode and Telegram polling.
 
 Usage:
-    uv run python -m bot.bot --test "/start"
-    uv run python -m bot.bot --test "/scores lab-04"
-    uv run python -m bot.bot
+    uv run bot.py --test "/start"
+    uv run bot.py --test "/scores lab-04"
+    uv run bot.py
 """
 
 import argparse
+import os
 import sys
+from pathlib import Path
 from typing import Callable
 
-from .config import BOT_TOKEN
-from .handlers import handle_start, handle_help, handle_health, handle_labs, handle_scores
+# Ensure the project root is in sys.path so 'bot' package can be found
+# Works both when run as `uv run bot.py` from bot/ and `python -m bot.bot` from root
+_project_root = Path(__file__).resolve().parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.insert(0, str(_project_root))
+
+from bot.config import BOT_TOKEN
+from bot.handlers import handle_start, handle_help, handle_health, handle_labs, handle_scores
 
 
 COMMANDS: dict[str, Callable[..., str]] = {
