@@ -18,7 +18,7 @@ _client = httpx.Client(
         "Authorization": f"Bearer {LLM_API_KEY}",
         "Content-Type": "application/json",
     },
-    timeout=120.0,
+    timeout=60.0,
 )
 
 _MAX_RETRIES = 3
