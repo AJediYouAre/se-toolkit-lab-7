@@ -77,6 +77,57 @@ By the end of this lab, you should be able to say:
 2. I can ask it questions in plain language and it fetches the right data.
 3. I used an AI coding agent to plan and build the whole thing.
 
+## Deploy
+
+### Prerequisites
+
+- `.env.docker.secret` filled in with real values (see `.env.docker.example` for the template)
+- Required env vars:
+  - `BOT_TOKEN` — Telegram bot token from @BotFather
+  - `LMS_API_KEY` — must match the key used by the backend
+  - `LLM_API_KEY` — API key for the LLM proxy
+  - `LLM_API_BASE_URL` — URL of the LLM proxy (e.g. `http://localhost:42005/v1`)
+  - `LLM_API_MODEL` — model name (e.g. `openai/gpt-oss-120b:free`)
+
+### Start all services
+
+```terminal
+cd ~/se-toolkit-lab-7
+
+# Stop any running background bot
+pkill -f "bot.py" 2>/dev/null
+
+# Build and start everything with Docker
+docker compose --env-file .env.docker.secret up --build -d
+
+# Verify all services are running
+docker compose --env-file .env.docker.secret ps
+```
+
+### Verify the bot container
+
+```terminal
+# Check bot logs
+docker compose --env-file .env.docker.secret logs bot --tail 20
+
+# Expected: "Bot started. Press Ctrl+C to stop." and no tracebacks
+```
+
+### Test in Telegram
+
+1. `/start` — welcome message with inline keyboard
+2. `/health` — backend status check
+3. "what labs are available?" — natural language query via LLM
+4. "which lab has the lowest pass rate?" — multi-step reasoning
+
+### Common issues
+
+| Symptom | Fix |
+|---|---|
+| Bot container keeps restarting | Check `docker compose logs bot` — usually missing env var |
+| `/health` fails | `LMS_API_BASE_URL` must be `http://backend:8000` inside Docker |
+| LLM queries timeout | `LLM_API_BASE_URL` must use `host.docker.internal` for the proxy |
+
 ## Tasks
 
 ### Prerequisites
